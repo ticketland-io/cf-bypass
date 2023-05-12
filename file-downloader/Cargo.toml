@@ -8,6 +8,7 @@ edition = "2021"
 [dependencies]
 eyre = "0.6.8"
 fast_image_resize = "2.7.0"
+futures = "0.3.28"
 gifski = "1.10.3"
 gif = { version = "0.12.0", default-features = false, features = ["std", "raii_no_panic"] }
 gif-dispose = "4.0.0"
