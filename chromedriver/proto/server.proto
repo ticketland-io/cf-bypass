@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package image_downloader;
+
+service ImageDownloader {
+  rpc DownloadFile(Request) returns (FileResponse);
+}
+
+message Request {
+  string uri = 1;
+}
+
+message FileResponse {
+  uint32 status = 1;
+  bytes data = 2;
+}
