@@ -42,7 +42,7 @@ async fn run(id: usize) -> Result<()> {
 async fn main() -> Result<()> {
   let mut tasks = Vec::with_capacity(10);
 
-  for id in 0..10 {
+  for id in 0..1 {
     tasks.push(tokio::spawn(run(id)));
   }
 

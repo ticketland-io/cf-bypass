@@ -1,18 +1,25 @@
 import undetected_chromedriver as uc
+from threading import Thread
+from threading import Lock
 import time
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 import src.headless.js_scripts as js_scripts
 
+mutex = Lock()
+
 class Driver:
   _instance = None
 
   def __new__(cls, *args, **kwargs):
+    mutex.acquire(1)
     # If no instance of class already exits
     if cls._instance is None:
       cls._instance = object.__new__(cls)
       cls._instance._initialized = False
+      print("New instance created")
 
+    mutex.release()
     return cls._instance
 
   def __init__(self):

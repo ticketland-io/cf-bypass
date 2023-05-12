@@ -3,8 +3,8 @@ from concurrent import futures
 from src.grpc.file_server_pb2_grpc import add_FileDownloaderServicer_to_server
 from src.grpc.file_server_pb2_grpc import FileDownloaderServicer
 
-def serve():
-  print("Starting the gRPC server on port 50051")
+def serve(port="[::]:50051"):
+  print("Starting the gRPC server on port {}".format(port))
   
   kb = 1024
   mb = 1024*kb
@@ -18,9 +18,9 @@ def serve():
     ]
   )
   add_FileDownloaderServicer_to_server(FileDownloaderServicer(), server)
-  server.add_insecure_port('[::]:50051')
+  server.add_insecure_port(port)
   server.start()
   
-  print("gRPC server started on port 50051")
+  print("gRPC server started on port {}".format(port))
   
   server.wait_for_termination()
