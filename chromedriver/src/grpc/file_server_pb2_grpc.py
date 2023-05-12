@@ -24,33 +24,30 @@ class FileDownloaderStub(object):
 
 
 class FileDownloaderServicer(object):
+	"""Missing associated documentation comment in .proto file."""
+    
+	def DownloadFile(self, request, context):
 		"""Missing associated documentation comment in .proto file."""
+		context.set_code(grpc.StatusCode.OK)
+		print("Download file", request.uri)
 
-		def DownloadFile(self, request, context):
-				"""Missing associated documentation comment in .proto file."""
-				context.set_code(grpc.StatusCode.OK)
-				print("Download file", request.uri)
+		try:
+			data = chromedriver.download(request.uri)
+			return FileResponse(status=0, data=bytes(data))
+		except BaseException as exception:
+			logging.exception("Error {exception}")
+		
+		return FileResponse(status=0)
 
-				try:
-					data = chromedriver.download(request.uri)
-				except BaseException as exception:
-					logging.exception("Error {exception}")
-
-				return FileResponse(
-					status=0,
-					data=data
-				)
-				
 def add_FileDownloaderServicer_to_server(servicer, server):
 		rpc_method_handlers = {
-						'DownloadFile': grpc.unary_unary_rpc_method_handler(
-									servicer.DownloadFile,
-									request_deserializer=file__server__pb2.Request.FromString,
-									response_serializer=file__server__pb2.FileResponse.SerializeToString,
-						),
+			'DownloadFile': grpc.unary_unary_rpc_method_handler(
+				servicer.DownloadFile,
+				request_deserializer=file__server__pb2.Request.FromString,
+				response_serializer=file__server__pb2.FileResponse.SerializeToString,
+			),
 		}
-		generic_handler = grpc.method_handlers_generic_handler(
-						'file_server.FileDownloader', rpc_method_handlers)
+		generic_handler = grpc.method_handlers_generic_handler('file_server.FileDownloader', rpc_method_handlers)
 		server.add_generic_rpc_handlers((generic_handler,))
 
 
@@ -60,15 +57,15 @@ class FileDownloader(object):
 
 		@staticmethod
 		def DownloadFile(request,
-						target,
-						options=(),
-						channel_credentials=None,
-						call_credentials=None,
-						insecure=False,
-						compression=None,
-						wait_for_ready=None,
-						timeout=None,
-						metadata=None):
+			target,
+			options=(),
+			channel_credentials=None,
+			call_credentials=None,
+			insecure=False,
+			compression=None,
+			wait_for_ready=None,
+			timeout=None,
+			metadata=None):
 				return grpc.experimental.unary_unary(request, target, '/file_server.FileDownloader/DownloadFile',
 						file__server__pb2.Request.SerializeToString,
 						file__server__pb2.FileResponse.FromString,
