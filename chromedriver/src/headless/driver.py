@@ -79,7 +79,7 @@ class Driver:
     end = time.perf_counter()
     print("time elapsed in ", end - start, sep='')
     
-    return data
+    return bytes(data)
 
   def take_screenshot(self):
     element = self.driver.find_element(By.TAG_NAME, 'img')
