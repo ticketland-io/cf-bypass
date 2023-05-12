@@ -7,6 +7,9 @@ pub mod file_server {
   tonic::include_proto!("file_server");
 }
 
+// 50MB
+const MAX_MESSAGE_SIZE: usize = 1024 * 1024 * 50;
+
 #[derive(Clone, Debug)]
 pub struct GrpcClient {
   client: FileDownloaderClient<Channel>,
@@ -19,7 +22,8 @@ impl GrpcClient {
     .parse::<String>()
     .expect("the url should have been validated by now, so it is a valid Uri");
 
-    let client = FileDownloaderClient::connect(uri).await?;
+    let client = FileDownloaderClient::connect(uri).await?
+    .max_decoding_message_size(MAX_MESSAGE_SIZE);
 
     Ok(Self {client})
   }
