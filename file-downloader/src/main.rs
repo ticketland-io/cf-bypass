@@ -8,7 +8,7 @@ use file_downloader::{
 
 #[tokio::main]
 async fn main() -> Result<()> {
-  for _ in 0..100 {
+  for _ in 0..1 {
     // let uri = "https://nft.blocto.app/aptos-blocto-lfb/blocto.png".to_string();
     // let uri = "https://art-sandbox.sunflower.industries/token/0xd58434f33a20661f186ff67626ea6bdf41b80bca/955".to_string();
     let uri = "https://cloudflare-ipfs.com/ipfs/QmVet4B2giUTyyJ9rAkU8oRR8TcL5XRkdjcm6TVDaKjSHy".to_string();
