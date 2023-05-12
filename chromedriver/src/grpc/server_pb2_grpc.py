@@ -5,7 +5,7 @@ import grpc
 import server_pb2 as server__pb2
 
 
-class ImageDownloaderStub(object):
+class FileDownloaderStub(object):
     """Missing associated documentation comment in .proto file."""
 
     def __init__(self, channel):
@@ -15,13 +15,13 @@ class ImageDownloaderStub(object):
             channel: A grpc.Channel.
         """
         self.DownloadFile = channel.unary_unary(
-                '/image_downloader.ImageDownloader/DownloadFile',
+                '/image_downloader.FileDownloader/DownloadFile',
                 request_serializer=server__pb2.Request.SerializeToString,
                 response_deserializer=server__pb2.FileResponse.FromString,
                 )
 
 
-class ImageDownloaderServicer(object):
+class FileDownloaderServicer(object):
     """Missing associated documentation comment in .proto file."""
 
     def DownloadFile(self, request, context):
@@ -31,7 +31,7 @@ class ImageDownloaderServicer(object):
         raise NotImplementedError('Method not implemented!')
 
 
-def add_ImageDownloaderServicer_to_server(servicer, server):
+def add_FileDownloaderServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'DownloadFile': grpc.unary_unary_rpc_method_handler(
                     servicer.DownloadFile,
@@ -40,12 +40,12 @@ def add_ImageDownloaderServicer_to_server(servicer, server):
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'image_downloader.ImageDownloader', rpc_method_handlers)
+            'image_downloader.FileDownloader', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
 
 
  # This class is part of an EXPERIMENTAL API.
-class ImageDownloader(object):
+class FileDownloader(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
@@ -59,7 +59,7 @@ class ImageDownloader(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/image_downloader.ImageDownloader/DownloadFile',
+        return grpc.experimental.unary_unary(request, target, '/image_downloader.FileDownloader/DownloadFile',
             server__pb2.Request.SerializeToString,
             server__pb2.FileResponse.FromString,
             options, channel_credentials,

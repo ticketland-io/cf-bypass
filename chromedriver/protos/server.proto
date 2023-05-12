@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package image_downloader;
 
-service ImageDownloader {
+service FileDownloader {
   rpc DownloadFile(Request) returns (FileResponse);
 }
 
