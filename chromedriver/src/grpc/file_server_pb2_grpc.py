@@ -5,7 +5,7 @@ import logging
 from src.grpc.file_server_pb2 import FileResponse
 
 import src.grpc.file_server_pb2 as file__server__pb2
-import src.headless.driver as chromedriver
+from src.headless.driver import Driver
 
 class FileDownloaderStub(object):
 		"""Missing associated documentation comment in .proto file."""
@@ -32,7 +32,8 @@ class FileDownloaderServicer(object):
 		print("Download file", request.uri)
 
 		try:
-			mime_type, data = chromedriver.download(request.uri)
+			driver = Driver()
+			mime_type, data = driver.download(request.uri)
 			return FileResponse(mime_type=mime_type, data=data)
 		except BaseException as exception:
 			logging.exception("Error {exception}")

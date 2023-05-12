@@ -4,6 +4,59 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 import src.headless.js_scripts as js_scripts
 
+class Driver:
+  _instance = None
+
+  def __new__(cls, *args, **kwargs):
+    # If no instance of class already exits
+    if cls._instance is None:
+      cls._instance = object.__new__(cls)
+      cls._instance._initialized = False
+
+    return cls._instance
+
+  def __init__(self):
+    if self._initialized:
+      return
+          
+    chrome_options = Options()
+    chrome_options.add_argument("--no-sandbox") # linux only
+    chrome_options.add_argument("--headless")
+    # chrome_options.add_argument("--proxy-server=socks5://127.0.0.1:9050")
+    start = time.perf_counter()
+    self.driver = uc.Chrome(options=chrome_options)
+    end = time.perf_counter()
+    print("create Chrome elapsed in ", end - start, sep='')
+
+    self._initialized = True
+
+
+  def download(self, uri):
+    start = time.perf_counter()
+    self.driver.get(uri)
+    end = time.perf_counter()
+    print("Open tab elapsed in ", end - start, sep='')
+
+    tag, elem = get_content_element(self.driver)
+
+    print("Tag Name", tag)
+
+    if elem == None:
+      return None, None
+    elif tag == "pre":
+      return "application/json", bytes(elem.text, 'utf-8')
+    elif tag == "svg":
+      return "image/svg+xml", take_screenshot(self.driver)
+
+    # If it's an image then check if it's gif so we use js script to get the data else just take a screenshot
+    mime_type = self.driver.execute_async_script(js_scripts.get_mime_type(uri))
+    print("Mime Type", mime_type)
+
+    if mime_type == "image/gif":
+      return mime_type, download_gif(self.driver, uri)
+    else:
+      return mime_type, take_screenshot(self.driver)
+
 # Returns the page type: 'svg', 'img', 'pre' or None invalid page as well as the actual DOM element
 def get_content_element(driver):
   body = driver.find_element(By.TAG_NAME, 'body')
@@ -32,32 +85,3 @@ def download_gif(driver, uri):
 def take_screenshot(driver):
   element = driver.find_element(By.TAG_NAME, 'img')
   return element.screenshot_as_png
-
-def download(uri):
-  chrome_options = Options()
-  chrome_options.add_argument("--no-sandbox") # linux only
-  chrome_options.add_argument("--headless")
-  # chrome_options.add_argument("--proxy-server=socks5://127.0.0.1:9050")
-
-  driver = uc.Chrome(options=chrome_options)
-  driver.get(uri)
-
-  tag, elem = get_content_element(driver)
-
-  print("Tag Name", tag)
-
-  if elem == None:
-    return None, None
-  elif tag == "pre":
-    return "application/json", bytes(elem.text, 'utf-8')
-  elif tag == "svg":
-    return "image/svg+xml", take_screenshot(driver)
-
-  # If it's an image then check if it's gif so we use js script to get the data else just take a screenshot
-  mime_type = driver.execute_async_script(js_scripts.get_mime_type(uri))
-  print("Mime Type", mime_type)
-
-  if mime_type == "image/gif":
-    return mime_type, download_gif(driver, uri)
-  else:
-    return mime_type, take_screenshot(driver)
