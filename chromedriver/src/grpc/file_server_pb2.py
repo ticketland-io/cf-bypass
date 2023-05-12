@@ -19,11 +19,11 @@ _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, globals())
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'file_server_pb2', globals())
 if _descriptor._USE_C_DESCRIPTORS == False:
 
-  DESCRIPTOR._options = None
-  _REQUEST._serialized_start=34
-  _REQUEST._serialized_end=56
-  _FILERESPONSE._serialized_start=58
-  _FILERESPONSE._serialized_end=102
-  _FILEDOWNLOADER._serialized_start=104
-  _FILEDOWNLOADER._serialized_end=185
+	DESCRIPTOR._options = None
+	_REQUEST._serialized_start=34
+	_REQUEST._serialized_end=56
+	_FILERESPONSE._serialized_start=58
+	_FILERESPONSE._serialized_end=102
+	_FILEDOWNLOADER._serialized_start=104
+	_FILEDOWNLOADER._serialized_end=185
 # @@protoc_insertion_point(module_scope)
