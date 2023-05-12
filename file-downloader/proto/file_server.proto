@@ -11,6 +11,6 @@ message Request {
 }
 
 message FileResponse {
-  uint32 status = 1;
+  string mime_type = 1;
   bytes data = 2;
 }

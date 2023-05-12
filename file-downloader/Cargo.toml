@@ -7,12 +7,19 @@ edition = "2021"
 
 [dependencies]
 eyre = "0.6.8"
+fast_image_resize = "2.7.0"
 gifski = "1.10.3"
 gif = { version = "0.12.0", default-features = false, features = ["std", "raii_no_panic"] }
 gif-dispose = "4.0.0"
+image = "0.24.6"
 tonic = "0.9"
+resvg = "0.32.0"
+tiny-skia = "0.9.0"
 prost = "0.11"
 tokio = { version = "1.0", features = ["macros", "rt-multi-thread"] }
+usvg = "0.32.0"
+webp = "0.2.2"
+
 
 [build-dependencies]
 tonic-build = "0.9"

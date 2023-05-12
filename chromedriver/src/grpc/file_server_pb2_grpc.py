@@ -32,15 +32,12 @@ class FileDownloaderServicer(object):
 		print("Download file", request.uri)
 
 		try:
-			data = chromedriver.download(request.uri)
-			if data == None:
-				return FileResponse(status=0, data=bytes())
-			else:
-				return FileResponse(status=0, data=bytes(data))
+			mime_type, data = chromedriver.download(request.uri)
+			return FileResponse(mime_type=mime_type, data=data)
 		except BaseException as exception:
 			logging.exception("Error {exception}")
-		
-		return FileResponse(status=0)
+			
+		return FileResponse
 
 def add_FileDownloaderServicer_to_server(servicer, server):
 		rpc_method_handlers = {

@@ -47,17 +47,17 @@ def download(uri):
   print("Tag Name", tag)
 
   if elem == None:
-    return None
+    return None, None
   elif tag == "pre":
-    return bytes(elem.text())
+    return None, bytes(elem.text())
   elif tag == "svg":
-    return take_screenshot(driver)
+    return "image/svg+xml", take_screenshot(driver)
 
   # If it's an image then check if it's gif so we use js script to get the data else just take a screenshot
   mime_type = driver.execute_async_script(js_scripts.get_mime_type(uri))
   print("Mime Type", mime_type)
 
   if mime_type == "image/gif":
-    return download_gif(driver, uri)
+    return mime_type, download_gif(driver, uri)
   else:
-    return take_screenshot(driver)
+    return mime_type, take_screenshot(driver)
