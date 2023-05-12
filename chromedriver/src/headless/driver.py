@@ -8,10 +8,9 @@ import src.headless.js_scripts as js_scripts
 def get_content_element(driver):
   body = driver.find_element(By.TAG_NAME, 'body')
   children = body.find_elements(By.CSS_SELECTOR, "*")
-  
-  child_elem = children[0]
+  child_elem = children[0]  
 
-  if len(children) > 0:
+  if len(children) == 0:
     return None, None
   elif child_elem.tag_name == "pre":
     return "pre", child_elem 
@@ -31,8 +30,8 @@ def download_gif(driver, uri):
   return data
 
 def take_screenshot(driver):
-  element = driver.find_elements_by_tag('img')
-  return element.get_screenshot_as_png()
+  element = driver.find_element(By.TAG_NAME, 'img')
+  return element.screenshot_as_png
 
 def download(uri):
   chrome_options = Options()
@@ -44,6 +43,8 @@ def download(uri):
   driver.get(uri)
 
   tag, elem = get_content_element(driver)
+
+  print("Tag Name", tag)
 
   if elem == None:
     return None
