@@ -49,7 +49,7 @@ def download(uri):
   if elem == None:
     return None, None
   elif tag == "pre":
-    return None, bytes(elem.text())
+    return "application/json", bytes(elem.text, 'utf-8')
   elif tag == "svg":
     return "image/svg+xml", take_screenshot(driver)
 

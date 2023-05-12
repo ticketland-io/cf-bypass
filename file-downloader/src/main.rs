@@ -8,7 +8,8 @@ use file_downloader::{
 
 #[tokio::main]
 async fn main() -> Result<()> {
-  let uri = "https://nft.blocto.app/aptos-blocto-lfb/blocto.png".to_string();
+  // let uri = "https://nft.blocto.app/aptos-blocto-lfb/blocto.png".to_string();
+  let uri = "https://art-sandbox.sunflower.industries/token/0xd58434f33a20661f186ff67626ea6bdf41b80bca/955".to_string();
   let mut client = GrpcClient::new("http://[::1]:50051").await?;
   let FileResponse {mime_type, data} = client.download_file(uri).await?;
 
@@ -16,6 +17,8 @@ async fn main() -> Result<()> {
 
   if data.len() == 0 {
     println!("Invalid html page");
+  } else if mime_type == "application/json" {
+    println!("JSON: {:#?}", std::str::from_utf8(&data)?);
   } else if mime_type == "image/svg+xml" {
     image_data = resize_img(svg_to_png(&data)?, "image/png")?;
   } else {
