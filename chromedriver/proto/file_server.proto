@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package image_downloader;
+package file_server;
 
 service FileDownloader {
   rpc DownloadFile(Request) returns (FileResponse);

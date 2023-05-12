@@ -1,7 +1,7 @@
 import grpc
 from concurrent import futures
-from src.grpc.server_pb2_grpc import add_FileDownloaderServicer_to_server
-from src.grpc.server_pb2_grpc import FileDownloaderServicer
+from src.grpc.file_server_pb2_grpc import add_FileDownloaderServicer_to_server
+from src.grpc.file_server_pb2_grpc import FileDownloaderServicer
 
 def serve():
   print("Starting the gRPC server on port 50051")

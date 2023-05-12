@@ -2,7 +2,7 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-import src.grpc.server_pb2 as server__pb2
+import file_server_pb2 as file__server__pb2
 
 
 class FileDownloaderStub(object):
@@ -15,9 +15,9 @@ class FileDownloaderStub(object):
             channel: A grpc.Channel.
         """
         self.DownloadFile = channel.unary_unary(
-                '/image_downloader.FileDownloader/DownloadFile',
-                request_serializer=server__pb2.Request.SerializeToString,
-                response_deserializer=server__pb2.FileResponse.FromString,
+                '/file_server.FileDownloader/DownloadFile',
+                request_serializer=file__server__pb2.Request.SerializeToString,
+                response_deserializer=file__server__pb2.FileResponse.FromString,
                 )
 
 
@@ -35,12 +35,12 @@ def add_FileDownloaderServicer_to_server(servicer, server):
     rpc_method_handlers = {
             'DownloadFile': grpc.unary_unary_rpc_method_handler(
                     servicer.DownloadFile,
-                    request_deserializer=server__pb2.Request.FromString,
-                    response_serializer=server__pb2.FileResponse.SerializeToString,
+                    request_deserializer=file__server__pb2.Request.FromString,
+                    response_serializer=file__server__pb2.FileResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'image_downloader.FileDownloader', rpc_method_handlers)
+            'file_server.FileDownloader', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
 
 
@@ -59,8 +59,8 @@ class FileDownloader(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/image_downloader.FileDownloader/DownloadFile',
-            server__pb2.Request.SerializeToString,
-            server__pb2.FileResponse.FromString,
+        return grpc.experimental.unary_unary(request, target, '/file_server.FileDownloader/DownloadFile',
+            file__server__pb2.Request.SerializeToString,
+            file__server__pb2.FileResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
