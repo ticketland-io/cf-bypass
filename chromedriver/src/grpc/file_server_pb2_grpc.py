@@ -33,9 +33,10 @@ class FileDownloaderServicer(object):
 
 		try:
 			data = chromedriver.download(request.uri)
-			print("Received data")
-			
-			return FileResponse(status=0, data=bytes(data))
+			if data == None:
+				return FileResponse(status=0, data=bytes())
+			else:
+				return FileResponse(status=0, data=bytes(data))
 		except BaseException as exception:
 			logging.exception("Error {exception}")
 		
